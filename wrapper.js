@@ -3,7 +3,7 @@ function init(server_list)
 
 {
 
-    //Modificar la pagina para que muestre la lista de servers como botones
+   //Modificar la pagina para que muestre la lista de servers como botones
 
 }
 
