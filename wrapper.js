@@ -1,6 +1,5 @@
 
 function init(server_list)
-
 {
 
    //Modificar la pagina para que muestre la lista de servers como botones
@@ -8,7 +7,6 @@ function init(server_list)
 }
 
 function on_push_button_load_series_list(server)
-
 {
 
  // parsear lista de series del servidor seleccionado
@@ -18,7 +16,6 @@ function on_push_button_load_series_list(server)
 }
 
 function on_push_button_load_season(serie)
-
 {
 
  // parsear las temporadas de la serie
@@ -28,7 +25,6 @@ function on_push_button_load_season(serie)
 }
 
 function on_push_button_load_chapters(season)
-
 {
 
  // parsear los capitulos de la temporada
@@ -38,7 +34,6 @@ function on_push_button_load_chapters(season)
 }
 
 function play(chapter)
-
 {
 
  // buscar y/o generar  el link
