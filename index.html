@@ -5,16 +5,15 @@
    <link rel="stylesheet" href="http://vjs.zencdn.net/c/video-js.css"/>
 	<script src="http://vjs.zencdn.net/c/video.js"></script>
 	<script src="//code.jquery.com/jquery-latest.js"></script>
+	<script src="ajax.js"></script>
+	<script src="responseHTML.js"></script> <!-- cargar responseHTML antes del wrapper.js para que este pueda usar sus funciones -->
 	<script src="wrapper.js"></script>
+	
 </head>
 
 <body>
-
-	
-		<noscript> Necesitas tener Javascript habilitado </noscript>
-
-	
-   
+<div id="storage">storage </div>
+<div id="displayed">displayed </div>
 <script>
 $(document).ready(function(){
 						init1();
