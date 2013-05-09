@@ -1,22 +1,41 @@
+/**
+* Modificar la pagina para que muestre la lista de servers como botones
+*/
+function init1(){
+   
+	var servers = new Array();
+	var sHtml = '';
+	
+	servers[0]={name:'Series Yonkis',url:'http://www.seriesyonkis.com'};
+	servers[1]={name:'Series Pepito',url:'http://www.seriespepito.com'};
+	
+	if (servers.length>0) {
+		sHtml+='<ul id="lista-servers">';
+		for (i=0;i<servers.length;i++) {
+			sHtml+=
+			'<li>'
+				+'<button id="bServer'+i+'" onClick="javascript:load_series_list("'+servers[i].url+'")">'
+				+servers[i].name
+				+'</button>'
+			+'</li>';	
+		}
+		sHtml+='</ul>';
+		$('body').append(sHtml);
+	}
+	
+}
 
-function init(server_list)
+/**
+* parsear lista de series del servidor seleccionado
+* modificar pagina para que muestre la lista
+*/
+function load_series_list(server){
 
-{
-
-   //Modificar la pagina para que muestre la lista de servers como botones
+	alert('algún día extraeré la lista de ' + server + ' y será fabuloso!');
 
 }
 
-function on_push_button_load_series_list(server)
-
-{
-
- // parsear lista de series del servidor seleccionado
-
- // modificar pagina para que muestre la lista
-
-}
-
+/*
 function on_push_button_load_season(serie)
 
 {
@@ -48,3 +67,4 @@ function play(chapter)
 }
 
 
+*/
