@@ -1,3 +1,11 @@
+/*************************************************************************************
+Estas funciones van a ser seguramente innecesarias, ya que al tener un servidor php
+resulta más sencillo que este mismo se encarge de servir nuevas páginas en cada una de 
+las fases, en lugar de limitarse a enviar un string con la nueva información
+a insertar en el DOM. Además se realizan más llamadas y complica la lógica.
+**************************************************************************************/
+
+
 /**
  * Genera la pantalla de incio
  */
