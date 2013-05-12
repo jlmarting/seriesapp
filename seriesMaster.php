@@ -1,21 +1,27 @@
 <?php
+	/**********************
+		Modelo.
+		Es la clase base y piedra angular del desarrollo. Contiene la lógica principal.
+		Esta clase implementa métodos que se analizan y extraen información.
+		La propiedad servers recoge un array de datos de los servidores a analizar.
+		Esta propiedad se usa a modo de CONSTANTE y sirve de guía para el análisis.
+		Por cada server, se guarda esta información.
 
-	$master = new seriesMaster();
-	$task=$_REQUEST['task'];		//tarea a realizar
-	$url=$_REQUEST['url'];			//url
-	$indice=$_REQUEST['indice'];	// ID de indice a buscar en el DOM
-	
-	if (!is_null($_REQUEST['task'])) 
-		$master->exe($_REQUEST['task'],$_REQUEST);
-	else die('Task no definida');
+		'name'		: 	nombre del servidor
+		'url'		:	url del sitio
+		'indice'	:	id del DOM donde está la lista de índice de cappítulos
 		
+		Esta estructura seguramente no será válida, dado que no es lo suficientemente
+		general como para todos los sitios. En el caso de seriespepito, no podemos
+		acceder por ID al nodo del DOM de la lista que mencionábamos.
+		Además a medida que se continúe con el desarrollo, serán necesarios más índices
+		para tener la información necesaria de cada server para su análisis.
+	**************************/
+
+	
+
 	class seriesMaster {
-	
-			var $estado = array('indice'=>'',
-								'temporada'=>'',
-								'capitulos'=>'');
-	
-		
+			
 			var $servers=array(
 							array(
 								'name'=>'Series Yonkis',
@@ -28,41 +34,12 @@
 								'indice'=>'lista_letras'
 							)
 						);
-	
-		/**
-		*	Al instanciarse la clase se ejecutarán una serie de métodos
-		*	en función de los parámetros de url
-		*/
-		public function exe($task,$params){
-		
-			switch ($task){
-				case 'serverList':	echo $this->serverList();break;
-				case 'seriesList':	echo $this->seriesList($params['url']);break;
-				case 'chapterList':
-				case 'selectChapter':
-				case 'play':
-				default : echo '<p>Task '.$task. ' no implementada</p>';
-				include "index.html";
-			}
-		}
-		
+							
 		/**
 		*	Devuelve lista de servidores
 		*/
 		function serverList(){		
-			$html=null;			
-			if (!empty($this->servers)){				
-				$html='<ul>';				
-				foreach ($this->servers as $s){
-					//armamos la siguiente url parametrizada a pedir
-					$href_url='seriesMaster.php?task=seriesList&url='.$s['url'].'&indice='.$this->getIndiceID($s['url']);
-					$html.='<li><a href="'.$href_url.'">';
-					$html.=$s['name'].'</a></li>';
-				}
-				$html.='</ul>';
-			}
-			return $html;
-			
+			return $this->servers;			
 		}
 		
 		/**
@@ -72,15 +49,6 @@
 			$html=$this->getPage('http://'.$url);
 			$doc = new DOMDocument();
 			@$doc->loadHTML($html);		//para evitar visualizar warnings... revisarlo
-			//http://stackoverflow.com/questions/2818759/how-do-i-display-a-domelement	
-			/*	$newdoc = new DOMDocument;
-				$node = $newdoc->importNode($node, true);
-				$newdoc->appendChild($node);
-				$html = $newdoc->saveHTML();
-			no terminaba de tirar. Después de dar mil vueltas:
-			http://www.php.net/manual/es/domnode.c14n.php
-			C14N: canoniza nodos a una cadena.... canoniza... ¡toma ya!
-			*/
 			echo "indice".$this->getIndiceID($url);
 			$doc=$doc->getElementById($this->getIndiceID($url));
 			return $doc->C14N();
