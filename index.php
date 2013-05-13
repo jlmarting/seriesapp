@@ -1,15 +1,14 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>SeriesApp2</title>
-	</head>
-	<body>	
-
-	<?php
+<?php
 	include_once "seriesController.php";
-		$task=$_GET['task'];
 		$controller=new seriesController();
-		$controller->exe('serverList');
-	?>
-	</body>
-</html>
+		$task=$_POST['task'];
+		//comprobación de parámetros por url
+		//por ejemplo, por links parametrizados
+		if(empty($task)) {
+			$task=$_REQUEST['task'];
+			$param=$_REQUEST['param'];
+			$controller->param($param);			
+		}
+		
+		$controller->exe($task);
+?>

@@ -23,15 +23,18 @@
 
 	class seriesController {
 
+		var $param; //para posibles parámetros
+
 		function __construct(){		
 		}
 
 		public function exe($task){
-			switch ($task){				
+			switch ($task){	
+				case '':			
 				case 'start':			$this->start();break;
 				case 'serverList':		$this->serverList();break;
-				case 'seriesList':		//$this->seriesList($params['url']);break;
-				case 'chapterList':
+				case 'seriesList':		$this->seriesList($_POST['server']);break;
+				case 'chapterList':		$this->chapterList($this->param);break;
 				case 'selectChapter':
 				case 'play':
 				default : echo '<p>Task '.$task. ' no implementada</p>'; $this->start();
@@ -43,6 +46,10 @@
 			$view->display('start');
 		}
 
+		public function param($p){
+			$this->param=$p;
+		}
+
 		public function serverList() {
 			$model = new seriesMaster();
 			$aServers=$model->serverList();
@@ -50,8 +57,20 @@
 			$view->display('serverList',$aServers);
 		}
 
-		public function seriesList() {}
-		public function chapterList() {}
+		public function seriesList($url) {			
+			$model = new seriesMaster();
+			$aSeries=$model->seriesList($url);
+			$view= new seriesView();
+			$view->display('seriesList',$aSeries);
+
+		}
+
+		public function chapterList() {
+			echo "'chapterList' - sin implementar<br/>";
+			echo 'Se ha pasado el siguiente enlace:<br/>';
+			echo '<a href="http://'.$this->param.'">'.$this->param.'</a>';
+			$this->start();
+		}
 		public function selectChapter(){}
 	}
 

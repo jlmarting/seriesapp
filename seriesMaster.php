@@ -44,101 +44,95 @@
 		function seriesList($url){
 		
 			libxml_use_internal_errors(true); //?
-			
-			
-			//$string = 'show_list';
-			//if(stristr($html, $string) === FALSE) {
-			//			echo 'No existe show list';
-			//			return;
-			//}
-			
-			//search for filters
+
 			$links_array = array();
 			
-			//-- rellenamos links_array con los links asociados 
-			// a cada entrada de la clasificación alfabetica de series --//
-			//-- para las series que empiezan por A sería /lista_series/A 
-			// para las que empiezan con B /lista_series/B etc...--//
+			/* Rellenamos links_array con los links asociados 
+			 a cada entrada de la clasificación alfabetica de series. 
+			 Elemplos:
+			 	series que empiezan por A sería /lista_series/A 
+			 	las que empiezan con B /lista_series/B etc... */
 			
 			$classname="dictionary";
 			$classnamelist="dictionary-list";
 			$html=$this->getPage('http://'.$url);
 			$doc = new DOMDocument();
-
 			@$doc->loadHTML($html);
 
-			//-- los diferentes links para obtener las listas de series que empiezan 
-			// por cada una de las letras se encuentran en el elemento filters de la pagina principal--//
+			/* Los diferentes links para obtener las listas 
+			de series que empiezan por cada una de las letras se 
+			encuentran en el elemento filters de la pagina principal*/
+
 			$nodes_dictionary=$doc->getElementById( "filters" );
-			if ($nodes_dictionary == NULL)
-			{
+			
+			if ($nodes_dictionary == NULL)	{
 				echo "no hay indice de series";
-				return;
+				return null;
 			}
 
-			//-- Recorremos dicho elemento (filters) y rellenamos  el array con los links--//
+			/* Recorremos dicho elemento (filters)
+			 y rellenamos  el array con los links */
 			
 			$childNodes = $nodes_dictionary->childNodes;
 			
 			$nueva_pagina = "";
-			for ($i = 1; $i < $childNodes->length; $i++) 
-			{
+
+			for ($i = 1; $i < $childNodes->length; $i++) {
 				$node_dict = $childNodes->item($i);
-				if ($node_dict->nodeType == XML_TEXT_NODE) 
-				{
-					//-- los nodos tipo texto los obviamos, ahora se muestran pero solo por saber que tienen--//
+				if ($node_dict->nodeType == XML_TEXT_NODE) {
+					/* los nodos tipo texto los obviamos, 
+					ahora se muestran pero solo por saber que tienen*/
 					echo $this->printDomElement($node_dict);
 				}
-				else
-				{
+				else {
 					$link = $node_dict->childNodes->item(0);
-					//echo $this->printDomElement($link);
-					//-- En el atributo href del item 0 de los nodos hijos del filters tenemos el link --//
+					/* En el atributo href del item 0 de los nodos
+					 hijos del filters tenemos el link */
 					$dir=$link->getAttribute('href');
-					array_push($links_array, $dir);
-					
-				}
-	
+					array_push($links_array, $dir);					
+				}	
 			} 
 						
+			/* Recorremos los diferentes links y vamos obteniendo 
+			la lista de series para cada letra del alfabeto */
+			$aIndexSeries = array();
+			for ($j=0;$j<count($links_array);$j++){
+				
+				$aSerie = array();
+				$aSerie[0] = 'http://'.$url.$links_array[$j];
 
-			//-- Recorremos los diferentes links y vamos obteniendo la lista de series para cada letra del alfabeto --//
-			for ($j=0;$j<count($links_array);$j++)
-			{
-				echo "<BR>".'http://'.$url.$links_array[$j]."<BR>";
 				$html_new=$this->getPage('http://'.$url.$links_array[$j]);
 				$doc_new = new DOMDocument();
-				@$doc_new->loadHTML($html_new);	
+				$doc_new->loadHTML($html_new);	
 				
-				//-- El elemento que contiene la lista de series para la letra que se está procesando es list-container --//
-				$list_series=$doc_new->getElementById( "list-container" );
+				/*El elemento que contiene la lista de series 
+				para la letra que se está procesando es list-container*/
+				$list_series=$doc_new->getElementById("list-container");
 				
-				if ($list_series == NULL)
-				{
-					echo "no hay ";
-					return;
-				}
+				if (is_object($list_series))
+				$childNodes = $list_series->getElementsByTagName('a');
 			
-				$childNodes = $list_series->childNodes;
-			
-				for ($k = 1; $k < $childNodes->length; $k++) 
-				{
+				for ($k = 1; $k < $childNodes->length; $k++){
 					$node_dict = $childNodes->item($k);
-					if ($node_dict->nodeType <> XML_TEXT_NODE) 
-					{	
-						echo $this->printDomElement($node_dict). "<BR>";
-						
-						// el item 0 es un texto no un nodo
-						$link = $node_dict->childNodes->item(1);
-						
-						$serie_link=$link->getAttribute('href');
-						$serie_name=$link->getAttribute('title');
+					if ($node_dict->nodeType <> XML_TEXT_NODE){
+						//IMPORTANTE: aquí manipulamos la url del href	
+						$href=$node_dict->getAttribute('href');
+						$href='index.php?param='.$url.$href;
+						$href.='&task=chapterList';
+						$node_dict->setAttribute('href',$href);
+						$s=trim($this->printDomElement($node_dict));
+						if (!empty($s))	$aSerie[]=$s;		
 						
 					}
 			    }
 				
+				$aIndexSeries[]=$aSerie;
 			
 			}
+
+			//echo '<pre>';print_r($aIndexSeries);
+			//echo'</pre>';die();
+			return $aIndexSeries;
 				
 		}
 		

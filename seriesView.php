@@ -32,20 +32,27 @@ class seriesView {
 		switch($view){
 			case 'start': 			$this->start();break;
 			case 'serverList':		$this->serverList($param);break;
+			case 'seriesList':		$this->seriesList($param);break;
 			default  	:			$this->error();
 		}
 		echo $this->html;		
 	}
+
+
 
 	function DEBUG($desc,$var) {
 		echo '<pre>['.$desc.']<br/>';
 		print_r($var);echo '</pre>';
 	}
 
+
+
 	function error() {
 		$html='No se encontró nada de nada...<br/>
 		<a href="index.php"> Volver </a>';
 	}
+
+
 
 	function start(){
 		$html='
@@ -58,7 +65,7 @@ class seriesView {
 			<h3>Series App2</h3>
 			<p>Pulse "Empezar" para ver los proveedores de vídeo disponibles</p>
 			<form id="formView" action="index.php" method="post">
-			<input type="text" name="task" value="serverList"/>
+			<input type="hidden" name="task" value="serverList"/>
 			<input type="submit" value="Empezar"/> 
 			</form>
 		</body>
@@ -66,18 +73,44 @@ class seriesView {
 		$this->html=$html;
 	}
 
+
+
 	function serverList($aServers){
 		if(empty($aServers)) {
 			$this->error();
 		}
 		else{
-			$html = '<ul>';
+			$html = '<form id="formView" action="index.php" method="post">';
+			$html.= '<select name="server">';
 			foreach ($aServers as $s){
-				$href_url='seriesMaster.php?task=seriesList&url='.$s['url'].'&indice='.$s['url'];
-				$html.='<li><a href="'.$href_url.'">';
+				$html.='<option value="'.$s['url'].'">'.$s['name'].'</option>';
 				$html.=$s['name'].'</a></li>';
 			}
-			$html.='</ul>';
+			$html.='<input type="submit" value="Ver series"/>'; 
+			$html.='<input type="hidden" name="task" value="seriesList"/>';
+			$html.='</select></form>';
+		}
+		$this->html=$html;
+	}
+
+
+
+	function seriesList($aSeries){
+		if(empty($aSeries)) {
+			$this->error();
+		}
+		else{
+			//$this->DEBUG('aSeries',$aSeries);die();
+			$html = '';
+			foreach ($aSeries as $indexGroup){
+				foreach ($indexGroup as $k=>$serie) {
+					if ($k==0)	$html.='<h3>'.$serie.'</h3><ul>';
+					else $html.='<li>'.trim($serie).'</li>';					
+				}
+				$html.='</ul>';
+			}
+			$html.='<input type="hidden" name="task" value="chapterList"/>';
+			$html.='</select></form>';
 		}
 		$this->html=$html;
 	}

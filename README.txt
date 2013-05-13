@@ -1,3 +1,15 @@
+14/05/2013
+Se ha modificado index.php para recogida de parámetros por URL cuando existan.  Esto puede ser útil
+en el caso de usar links que quieran invocar una task del controlador.
+Se ha corregido la función seriesList. Ahora los enlaces indican task y parámetro (url de la serie). 
+Se ha implementado la vista de seriesList como un listado ordenado. Los últimos enlaces fallan dado que requieren
+un tratamiento especial, pero en general el resultado es correcto.
+Se ha dejado planteada la task chapterList. Ahora mismo sólo indica que está por implementar y muestra los parámetros 
+enviados (una url)
+En el controlador se ha implementado un método màs, param, que sirve para asignar un valor a la propiedad param.
+Esto es útil para almacenar en el objeto parámetros que puedan ser usados por ciertas task.
+
+
 12/05/2013
 Se ha reorganizado el código siguiendo el patrón MVC. De esta forma
 se diferencia entre el modelo, las vistas y el control, permitiendo tener 
