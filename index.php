@@ -1,10 +1,10 @@
 <?php
 	include_once "seriesController.php";
 		$controller=new seriesController();
-		$task=$_POST['task'];
-		//comprobación de parámetros por url
-		//por ejemplo, por links parametrizados
-		if(empty($task)) {
+		if(isset($_POST['task'])){	
+			$task=$_POST['task'];
+		}
+		else{
 			$task=$_REQUEST['task'];
 			$param=$_REQUEST['param'];
 			$controller->param($param);			

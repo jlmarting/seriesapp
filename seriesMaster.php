@@ -139,7 +139,14 @@
 		/**
 		*	Devuelve lista de capítulos
 		*/
-		function chapterList(){
+		function chapterList($url){
+			$html=$this->getPage('http://'.$url);
+			$dom=new DOMDocument();
+			@$dom->loadHTML($html);
+			$dom=$dom->getElementByID('seasons-list');
+			//echo'<pre>';print_r($dom);die();
+			$html=$this->printDomElement($dom);
+			return $html;
 		}
 		
 		/**

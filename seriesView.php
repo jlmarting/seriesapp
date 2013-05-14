@@ -33,6 +33,7 @@ class seriesView {
 			case 'start': 			$this->start();break;
 			case 'serverList':		$this->serverList($param);break;
 			case 'seriesList':		$this->seriesList($param);break;
+			case 'chapterList':		$this->chapterList($param);break;
 			default  	:			$this->error();
 		}
 		echo $this->html;		
@@ -116,6 +117,11 @@ class seriesView {
 	}
 
 	
+	function chapterList($aChapters){
+	//ahora mismo se hace un print_r sin mas
+	echo '<h3>Vista "chapterList" pendiente de implementar</h3>';
+	echo'<pre>';print_r($aChapters);echo'</pre>';
+	}	
 
 	
 }
