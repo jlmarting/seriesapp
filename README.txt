@@ -10,6 +10,7 @@ En el controlador se ha implementado un m�todo m�s, param, que sirve para as
 Esto es �til para almacenar en el objeto par�metros que puedan ser usados por ciertas task.
 Se ha implementado parcialmente el control, modelo y vista de chapterList. Por el momento se visualiza el html
 extraído de series yonkis. Se debe seguir trabajando en ella para integrarla adecuadamente en MVC.
+Se ha incluido task y vista player, para la reproducción de vídeo. Todavía por implementar.
 
 12/05/2013
 Se ha reorganizado el c�digo siguiendo el patr�n MVC. De esta forma
