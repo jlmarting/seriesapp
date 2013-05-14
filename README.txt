@@ -1,36 +1,37 @@
 14/05/2013
-Se ha modificado index.php para recogida de parámetros por URL cuando existan.  Esto puede ser útil
+Se ha modificado index.php para recogida de parï¿½metros por URL cuando existan.  Esto puede ser ï¿½til
 en el caso de usar links que quieran invocar una task del controlador.
-Se ha corregido la función seriesList. Ahora los enlaces indican task y parámetro (url de la serie). 
-Se ha implementado la vista de seriesList como un listado ordenado. Los últimos enlaces fallan dado que requieren
+Se ha corregido la funciï¿½n seriesList. Ahora los enlaces indican task y parï¿½metro (url de la serie). 
+Se ha implementado la vista de seriesList como un listado ordenado. Los ï¿½ltimos enlaces fallan dado que requieren
 un tratamiento especial, pero en general el resultado es correcto.
-Se ha dejado planteada la task chapterList. Ahora mismo sólo indica que está por implementar y muestra los parámetros 
+Se ha dejado planteada la task chapterList. Ahora mismo sï¿½lo indica que estï¿½ por implementar y muestra los parï¿½metros 
 enviados (una url)
-En el controlador se ha implementado un método màs, param, que sirve para asignar un valor a la propiedad param.
-Esto es útil para almacenar en el objeto parámetros que puedan ser usados por ciertas task.
-
+En el controlador se ha implementado un mï¿½todo mï¿½s, param, que sirve para asignar un valor a la propiedad param.
+Esto es ï¿½til para almacenar en el objeto parï¿½metros que puedan ser usados por ciertas task.
+Se ha implementado parcialmente el control, modelo y vista de chapterList. Por el momento se visualiza el html
+extraÃ­do de series yonkis. Se debe seguir trabajando en ella para integrarla adecuadamente en MVC.
 
 12/05/2013
-Se ha reorganizado el código siguiendo el patrón MVC. De esta forma
+Se ha reorganizado el cï¿½digo siguiendo el patrï¿½n MVC. De esta forma
 se diferencia entre el modelo, las vistas y el control, permitiendo tener 
-más orden en el desarrollo.
-También se han eliminado ficheros innecesarios.
+mï¿½s orden en el desarrollo.
+Tambiï¿½n se han eliminado ficheros innecesarios.
 En cada uno de los ficheros se explica la idea de cada uno, pero de forma
-básica podría resumirse así:
+bï¿½sica podrï¿½a resumirse asï¿½:
 
 index.php 
 es el punto de entrada, "activa" el controlador.
 
 seriesMaster.php
-se sirve de la lógica del modelo para mostrar las vistas con la información pertinente.
+se sirve de la lï¿½gica del modelo para mostrar las vistas con la informaciï¿½n pertinente.
 
 seriesMaster.php
-implementa métodos de análisis de DOM, de generación y selección de datos y cualquier función de proceso que se pudiera necesitar.
+implementa mï¿½todos de anï¿½lisis de DOM, de generaciï¿½n y selecciï¿½n de datos y cualquier funciï¿½n de proceso que se pudiera necesitar.
 
 seriesView.php
-se recogen las vistas de la aplicación. Todo lo que signifique mostrar información se implementa aquí. También se recoge en cada vista la posible información a pasar a otras etapas.
+se recogen las vistas de la aplicaciï¿½n. Todo lo que signifique mostrar informaciï¿½n se implementa aquï¿½. Tambiï¿½n se recoge en cada vista la posible informaciï¿½n a pasar a otras etapas.
 
-El planteamiento es bastante aproximado y se irá puliendo, pero permite separar el desarrollo e incorporar fácilmente cualquier código en el sitio adecuado.
+El planteamiento es bastante aproximado y se irï¿½ puliendo, pero permite separar el desarrollo e incorporar fï¿½cilmente cualquier cï¿½digo en el sitio adecuado.
 
 
 10/05/2013
