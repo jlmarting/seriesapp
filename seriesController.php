@@ -35,8 +35,8 @@
 				case 'serverList':		$this->serverList();break;
 				case 'seriesList':		$this->seriesList($_POST['server']);break;
 				case 'chapterList':		$this->chapterList($this->param);break;
+				case 'player':			$this->player($this->param);break;
 				case 'selectChapter':
-				case 'play':
 				default : echo '<p>Task '.$task. ' no implementada</p>'; $this->start();
 			}
 		}
@@ -76,6 +76,11 @@
 			$view->display('chapterList',$aChapters);
 		}
 		public function selectChapter(){}
+
+		public function player($url){			
+			$view = new seriesView();
+			$view->display('player',$url);
+		}
 	}
 
 ?>

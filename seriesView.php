@@ -34,6 +34,9 @@ class seriesView {
 			case 'serverList':		$this->serverList($param);break;
 			case 'seriesList':		$this->seriesList($param);break;
 			case 'chapterList':		$this->chapterList($param);break;
+			case 'player':			$this->player($param);break;
+				# code...
+				break;
 			default  	:			$this->error();
 		}
 		echo $this->html;		
@@ -60,6 +63,7 @@ class seriesView {
 		<!DOCTYPE html>
 		<html>
 		<head>
+		 <meta name="tipo_contenido"  content="text/html;" http-equiv="content-type" charset="utf-8">
 		<title>SeriesApp2</title>
 		</head>
 		<body>	
@@ -121,8 +125,39 @@ class seriesView {
 	//ahora mismo se hace un print_r sin mas
 	echo '<h3>Vista "chapterList" pendiente de implementar</h3>';
 	echo'<pre>';print_r($aChapters);echo'</pre>';
-	}	
+	}
 
+	
+
+	function player($url){
+		//cadena de prueba de streamcloud
+				
+		if (!isset($url)){
+		$url="http%3A%2F%2Fcdn5.streamcloud.eu%3A443%2Fq3v74jz5h2oax3ptx22indhl6wodvnn62en76wvehijuozfzrvy3jgp3gy%2Fvideo.mp4";
+		}
+		
+		$url=urldecode($url);
+		echo 'Fuente del vídeo:   [ '.$url.' ]<br/>';
+		$html='
+		<html>
+		    <head>
+	           <title>Web video player (con video.js)</title>
+	            <meta name="tipo_contenido"  content="text/html;" http-equiv="content-type" charset="utf-8">
+	   			<link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet">
+		       <script src="http://vjs.zencdn.net/c/video.js"></script>
+    		</head>
+			<body>
+			<p>En desarrollo. Para probar: index.php?task=player&ampparam=url.del.video/fichero.mp4</p>
+		 	<p>Si no se indica param, se tratará de usar una url definida en código</p>
+			<video id="example_video_1" 
+				class="video-js vjs-default-skin" controls width="896" height="504"
+      			preload="auto" data-setup="{}">
+ 				<source type="video/mp4" src="'. $url.'">
+			</video>
+		</body>
+		</html>';
+		$this->html=$html;
+	}	
 	
 }
 ?>
