@@ -38,6 +38,7 @@
 			return $newdoc->saveHTML();
 		}
 
+		
 		//-- Devuelve las series que se encuentran en una url concreta, no todas las series del servidor --//
 		//-- Devuelve las series ubicadas en una pagina con objeto con id "list-container" --//
 		function urlSeriesList($url_orig,$url,&$series_link_list)
@@ -70,6 +71,7 @@
 			}
 		
 		}
+
 		/**
 		*	Devuelve lista de series
 		*/
@@ -109,7 +111,9 @@
 			
 			$nueva_pagina = "";
 
+
 			//-- Por cada letra del alfabeto coger los links para esa letra--//
+
 			for ($i = 1; $i < $childNodes->length; $i++) {
 				$node_dict = $childNodes->item($i);
 				if ($node_dict->nodeType == XML_TEXT_NODE) {
@@ -130,8 +134,7 @@
 			la lista de series para cada letra del alfabeto */
 			$aIndexSeries = array();
 			for ($j=0;$j<count($links_array);$j++){
-				
-				
+						
 				$aSerie = array();
 				$aSerie[0] = 'http://'.$url.$links_array[$j];
 
@@ -161,7 +164,35 @@
 							$this->urlSeriesList($url,'http://'.$url.$href,$aSerie);
 						}
 					}
-				}
+				}			
+				$aIndexSeries[]=$aSerie;
+				$aSerie = array();
+				$aSerie[0] = 'http://'.$url.$links_array[$j];
+
+				$html_new=$this->getPage('http://'.$url.$links_array[$j]);
+				$doc_new = new DOMDocument();
+				$doc_new->loadHTML($html_new);	
+				
+				/*El elemento que contiene la lista de series 
+				para la letra que se está procesando es list-container*/
+				$list_series=$doc_new->getElementById("list-container");
+				
+				if (is_object($list_series))
+				$childNodes = $list_series->getElementsByTagName('a');
+			
+				for ($k = 1; $k < $childNodes->length; $k++){
+					$node_dict = $childNodes->item($k);
+					if ($node_dict->nodeType <> XML_TEXT_NODE){
+						//IMPORTANTE: aquí manipulamos la url del href	
+						$href=$node_dict->getAttribute('href');
+						$href='index.php?param='.$url.$href;
+						$href.='&task=chapterList';
+						$node_dict->setAttribute('href',$href);
+						$s=trim($this->printDomElement($node_dict));
+						if (!empty($s))	$aSerie[]=$s;		
+						
+					}
+			    }
 				
 				$aIndexSeries[]=$aSerie;
 			}
@@ -223,6 +254,12 @@
 			
 			//$html=$this->printDomElement($dom);
 			return $newHtml;
+
+			@$dom->loadHTML($html);
+			$dom=$dom->getElementByID('seasons-list');
+			//echo'<pre>';print_r($dom);die();
+			$html=$this->printDomElement($dom);
+			return $html;
 		}
 		
 		/**
