@@ -66,15 +66,12 @@
 		}
 
 		public function chapterList() {
-			//echo "'chapterList' - sin implementar<br/>";
-			//echo 'Se ha pasado el siguiente enlace:<br/>';
-			//echo '<a href="http://'.$this->param.'">'.$this->param.'</a>';
-			//$this->start();
 			$model = new seriesMaster();
 			$aChapters=$model->chapterList($this->param);
 			$view = new seriesView();
 			$view->display('chapterList',$aChapters);
 		}
+		
 		public function selectChapter(){}
 
 		public function player($url){			

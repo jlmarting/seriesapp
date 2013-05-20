@@ -122,9 +122,24 @@ class seriesView {
 
 	
 	function chapterList($aChapters){
-	//ahora mismo se hace un print_r sin mas
-	echo '<h3>Vista "chapterList" pendiente de implementar</h3>';
-	echo'<pre>';print_r($aChapters);echo'</pre>';
+	
+	if(empty($aChapters)) {
+			$this->error();
+		}
+		else{
+			//$this->DEBUG('aSeries',$aSeries);die();
+			$html = '';
+			foreach ($aChapters as $season){
+				foreach ($season as $k=>$chapter) {
+					if ($k==0)	$html.='<h3>'.$chapter.'</h3><ul>';
+					else $html.='<li>'.trim($chapter).'</li>';					
+				}
+				$html.='</ul>';
+			}
+			//$html.='<input type="hidden" name="task" value="chapterList"/>';
+			//$html.='</select></form>';
+		}
+		$this->html=$html;
 	}
 
 	

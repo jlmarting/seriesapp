@@ -142,10 +142,8 @@
 				
 				$html_new=$this->getPage('http://'.$url.$links_array[$j]);
 				$doc_new = new DOMDocument();
-				$doc_new->loadHTML($html_new);	
+				$doc_new->loadHTML($html_new);							
 								
-				
-				
 				//-- coger los paginadores del 0 al penultimo --//
 				//-- hay que coger este elemento por la clase  <div class="paginator" > --//
 				$finder = new DomXPath($doc_new);
@@ -197,8 +195,6 @@
 				$aIndexSeries[]=$aSerie;
 			}
 
-			//echo '<pre>';print_r($aIndexSeries);
-			//echo'</pre>';die();
 			return $aIndexSeries;
 				
 		}
@@ -209,57 +205,38 @@
 		function chapterList($url){
 			$html=$this->getPage('http://'.$url);
 			$dom=new DOMDocument();
-			$dom->loadHTML($html);
+			@$dom->loadHTML($html);
 			$dom=$dom->getElementByID('seasons-list');
-			//echo'<pre>';print_r($dom);die();
 			
 			$childNodes = $dom->getElementsByTagName('li');
 			for ($k = 0; $k < $childNodes->length; $k++)
 			{
-				$node_season = $childNodes->item($k);
-				
+				$node_season = $childNodes->item($k);			
 				$chapter_list = $node_season->getElementsByTagName('a');
-				for ($p = 0; $p < $chapter_list->length; $p++)
-				{
+
+				for ($p = 0; $p < $chapter_list->length; $p++){
 					
 					$chapter_node = $chapter_list->item($p);
 					
-					if ($chapter_node->nodeType == XML_TEXT_NODE) {
-						// los nodos tipo texto los obviamos, 
-						//ahora se muestran pero solo por saber que tienen
-						//echo $this->printDomElement($chapter_node);
-					}
-					else {
-					
+					if ($chapter_node->nodeType != XML_TEXT_NODE) {
 						$href=$chapter_node->getAttribute('href');
 						$href='index.php?param='.$href;
 						$href.='&task=chapterServerLinks';
 						$chapter_node->setAttribute('href',$href);
 						
-						if ($chapter_node->nodeType == XML_ELEMENT_NODE)
-						{
+						if ($chapter_node->nodeType == XML_ELEMENT_NODE){
 							$s = trim($this->printDomElement($chapter_node));
 							if (!empty($s))	{
 								$aSeason[]=$s;
-								$newHtml = $newHtml.$s.'<BR>';
 								}
 							}
 						}
 						
 				}
-				
-				$aChapter[]=$aSeason;
-
-			}
 			
-			//$html=$this->printDomElement($dom);
-			return $newHtml;
-
-			@$dom->loadHTML($html);
-			$dom=$dom->getElementByID('seasons-list');
-			//echo'<pre>';print_r($dom);die();
-			$html=$this->printDomElement($dom);
-			return $html;
+				$aChapter[]=$aSeason;
+			}
+			return $aChapter;
 		}
 		
 		/**
