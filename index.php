@@ -3,6 +3,7 @@
 		$controller=new seriesController();
 		if(isset($_POST['task'])){	
 			$task=$_POST['task'];
+			$param=$_POST['param'];
 		}
 		else{
 			$task=$_REQUEST['task'];

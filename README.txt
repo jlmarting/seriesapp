@@ -1,3 +1,10 @@
+26/05/2013
+Se visualizan por el momento botones para indicar en que servidor se va a buscar el video.
+Se ha trabajado en chapterServerList, tanto en modelo, vista como controlador. Supuestamente
+de aquí pasaríamos a playChapter, que está pendiente de implementar.
+La vista va por por POST y se han utilizado botones en lugar de urls en links, podría plantearse 
+de otra forma.
+
 14/05/2013
 Se ha modificado index.php para recogida de par�metros por URL cuando existan.  Esto puede ser �til
 en el caso de usar links que quieran invocar una task del controlador.

@@ -71,6 +71,32 @@
 			}
 		
 		}
+		
+		function getElementsByClassName(DOMDocument $DOMDocument, $ClassName)
+		{
+			$Elements = $DOMDocument -> getElementsByTagName("*");
+			$Matched = array();
+ 
+			foreach($Elements as $node)
+			{
+				if( ! $node -> hasAttributes())
+					continue;
+		 
+				$classAttribute = $node -> attributes -> getNamedItem('class');
+		 
+				if( ! $classAttribute)
+					continue;
+		 
+				$classes = explode(' ', $classAttribute -> nodeValue);
+		 
+				if(in_array($ClassName, $classes))
+					$Matched[] = $node;
+			}
+		 
+			return $Matched;
+		}
+				
+		
 
 		/**
 		*	Devuelve lista de series
@@ -199,6 +225,43 @@
 				
 		}
 		
+		
+		/**
+		*	Devuelve lista de servidores para un capítulo
+		*/
+		function chapterServerList($url){
+			$html=$this->getPage($url);
+			$dom=new DOMDocument();
+			@$dom->loadHTML($html);
+			//echo '<pre>';print_r($dom);die;
+			//$dom=$dom->getElementByID('section-content');
+			$finder = new DomXPath($dom);
+			//array de nombres de servidores
+			$aSrvNames = $finder->query("//td[@class='episode-server-img']/a/span/@class"); 		
+			//array de links a los servers
+			$aSrvLinks = $finder->query("//td[@class='episode-server-img']/a/@href"); 
+			//Los combinamos en uno montando este tinglao...
+			if (count($aSrvNames)==count($aSrvLinks)) {
+				$max=$aSrvNames->length;
+				for ($i=0;$i<$max;$i++){
+					$aServers[]=array('srv'=>$aSrvNames->item($i)->value,'url'=>$aSrvLinks->item($i)->value);
+				}
+									//echo '<pre>'.$max;print_r($aServers);print_r($aSrvNames);
+			}
+		
+			/*
+			 $aServers es un array que contiene tuplas, cada una de las cuales tiene
+			'srv'=> el nombre del servidor (se obtiene de la clase de un span, ej 'server streamcloud')
+			'url'=> es una cadena de url que llevará al server
+			*/
+			return $aServers;
+		}
+		
+		
+		
+		
+		
+		
 		/**
 		*	Devuelve lista de capítulos
 		*/
@@ -221,7 +284,7 @@
 					if ($chapter_node->nodeType != XML_TEXT_NODE) {
 						$href=$chapter_node->getAttribute('href');
 						$href='index.php?param='.$href;
-						$href.='&task=chapterServerLinks';
+						$href.='&task=chapterServerList';
 						$chapter_node->setAttribute('href',$href);
 						
 						if ($chapter_node->nodeType == XML_ELEMENT_NODE){

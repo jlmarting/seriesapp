@@ -30,11 +30,12 @@ class seriesView {
 
 	function display($view,$param=null){
 		switch($view){
-			case 'start': 			$this->start();break;
-			case 'serverList':		$this->serverList($param);break;
-			case 'seriesList':		$this->seriesList($param);break;
-			case 'chapterList':		$this->chapterList($param);break;
-			case 'player':			$this->player($param);break;
+			case 'start': 				$this->start();break;
+			case 'serverList':			$this->serverList($param);break;
+			case 'seriesList':			$this->seriesList($param);break;
+			case 'chapterList':			$this->chapterList($param);break;
+			case 'chapterServerList': 	$this->chapterServerList($param);break;
+			case 'player':				$this->player($param);break;
 				# code...
 				break;
 			default  	:			$this->error();
@@ -122,7 +123,7 @@ class seriesView {
 
 	
 	function chapterList($aChapters){
-	
+	//echo '<pre>';print_r($aChapters);die;
 	if(empty($aChapters)) {
 			$this->error();
 		}
@@ -130,15 +131,29 @@ class seriesView {
 			//$this->DEBUG('aSeries',$aSeries);die();
 			$html = '';
 			foreach ($aChapters as $season){
+				$html.='<ul>';
 				foreach ($season as $k=>$chapter) {
-					if ($k==0)	$html.='<h3>'.$chapter.'</h3><ul>';
-					else $html.='<li>'.trim($chapter).'</li>';					
+					$html.='<li>'.trim($chapter).'</li>';					
 				}
 				$html.='</ul>';
 			}
 			//$html.='<input type="hidden" name="task" value="chapterList"/>';
 			//$html.='</select></form>';
 		}
+		$this->html=$html;
+	}
+	
+	function chapterServerList($aChapterServers){
+			//$this->DEBUG('aChapterServers',$aChapterServers);
+			$html = '<form action="index.php" method="post"><ul>';
+			foreach ($aChapterServers as $aChapter){
+				$html.= '<li><button type="submit" name="param" value='.$aChapter['url'].'>'
+						.$aChapter['srv']
+						.'</button></li>';									
+			}
+			$html.='</ul><input type="hidden" name="task" value="playChapter"/>';
+			$html.='</form>';
+		
 		$this->html=$html;
 	}
 

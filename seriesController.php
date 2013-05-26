@@ -29,12 +29,16 @@
 		}
 
 		public function exe($task){
+			echo 'task: ';echo $task;echo '<br/>';			
+			echo 'param: ';echo $this->param;echo '<br/>';
 			switch ($task){	
 				case '':			
 				case 'start':			$this->start();break;
 				case 'serverList':		$this->serverList();break;
 				case 'seriesList':		$this->seriesList($_POST['server']);break;
 				case 'chapterList':		$this->chapterList($this->param);break;
+				case 'chapterServerList':	$this->chapterServerList($this->param);break;
+				case 'playChapter':		$this->playChapter($this->param);break;
 				case 'player':			$this->player($this->param);break;
 				case 'selectChapter':
 				default : echo '<p>Task '.$task. ' no implementada</p>'; $this->start();
@@ -44,6 +48,13 @@
 		public function start(){
 			$view = new seriesView();
 			$view->display('start');
+		}
+		
+		public function chapterServerList($url){
+			$model = new seriesMaster();
+			$aChapterServers = $model->chapterServerList($url);
+			$view = new seriesView();
+			$view->display('chapterServerList',$aChapterServers);
 		}
 
 		public function param($p){
@@ -72,7 +83,9 @@
 			$view->display('chapterList',$aChapters);
 		}
 		
-		public function selectChapter(){}
+		public function playChapter(){
+			echo '<h3>playChapter pendiente de implementar</h3>';
+		}
 
 		public function player($url){			
 			$view = new seriesView();
